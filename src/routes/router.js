@@ -33,7 +33,7 @@ const router = createBrowserRouter([
                     <ProtectRoute>
                         <Checkout></Checkout>
                     </ProtectRoute>,
-                loader: ({ params }) => fetch(`http://localhost:5000/services/${params.id}`)
+                loader: ({ params }) => fetch(`https://genious-car-server-ecru.vercel.app/services/${params.id}`)
             },
             {
                 path: '/orders',

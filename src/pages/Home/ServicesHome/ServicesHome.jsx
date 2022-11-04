@@ -9,7 +9,7 @@ const ServicesHome = () => {
     const [size, setSize] = useState(2);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/services?page=${page}&size=${size}`)
+        fetch(`https://genious-car-server-ecru.vercel.app/services?page=${page}&size=${size}`)
             .then(res => res.json())
             .then(data => {
                 setCount(data.count);
