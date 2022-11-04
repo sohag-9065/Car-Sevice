@@ -1,23 +1,55 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import logo from '../assets/logo.svg'
+import { AuthContext } from '../Context/UserContext';
+import Loading from './Loading';
 
 const Header = () => {
+    const { user, logout, loadingUser } = useContext(AuthContext);
+
+    if (loadingUser) {
+        return <Loading></Loading>
+    }
+
+    const handleLogout = () => {
+        logout()
+            .then(toast.warning('User logged out!', { autoClose: 1000 }))
+            .catch(error => console.log(error))
+    }
 
     const menuItems = <>
-        <li className='font-semibold'>
-            <NavLink
-                to="/home"
-                className={({ isActive }) => isActive ? 'underline decoration-2 underline-offset-[6px]' : undefined}
-            > Home </NavLink>
-        </li>
-        <li className='font-semibold'>
-            <NavLink
-                to="/blog"
-                className={({ isActive }) => isActive ? 'underline decoration-2 underline-offset-[6px]' : undefined}
-            > Blog </NavLink>
-        </li>
+        <li><NavLink to="/home" className={({ isActive }) => isActive ? "bg-[#3A4256] text-white" : undefined}>Home</NavLink></li>
+        <li><NavLink to="/blog" className={({ isActive }) => isActive ? "bg-[#3A4256] text-white" : undefined}>Blog</NavLink></li>
+        {
+            user ?
+                <>
+                    <li><NavLink to="/orders" className={({ isActive }) => isActive ? "bg-[#3A4256] text-white" : undefined}>Orders</NavLink></li>
+                    {
+                        user.photoURL ?
+                            <>
+                                <div className="dropdown  dropdown-end px-2 cursor-pointer">
+                                    <div tabIndex={0} className="avatar m-1">
+                                        <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-6">
+                                            <img src={user?.photoURL} alt="" />
+                                        </div>
+                                    </div>
+                                    <ul tabIndex={0} className="dropdown-content menu mt-2  p-2 shadow bg-stone-300 rounded-box w-52">
+                                        <li><NavLink className={({ isActive }) => isActive ? undefined : undefined} >{user?.displayName}</NavLink></li>
 
+                                        <li> <Link onClick={handleLogout} className="w-full" >Sign Out</Link></li>
+                                    </ul>
+                                </div>
+                            </>
+                            :
+                            <>
+                                <li> <NavLink className={({ isActive }) => isActive ? undefined : undefined} onClick={handleLogout} >Sign Out</NavLink></li>
+                            </>
+                    }
+                </>
+                :
+                <li><NavLink to="/login" className={({ isActive }) => isActive ? "bg-[#3A4256] text-white" : undefined}>Login</NavLink></li>
+        }
 
     </>
 
