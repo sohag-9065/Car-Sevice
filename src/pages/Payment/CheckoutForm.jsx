@@ -11,13 +11,13 @@ const CheckoutForm = ({ price }) => {
   const [clientSecret, setClientSecret] = useState('');
 
   useEffect(() => {
-    fetch('https://genious-car-server-ecru.vercel.app/create-payment-intent', {
+    fetch('https://genious-car-server-sohag-9065.vercel.app/create-payment-intent', {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('genius-token')}`
       },
-      body: JSON.stringify({ price })
+      body: JSON.stringify({ price: 50 })
     })
       .then(res => res.json())
       .then(data => {
