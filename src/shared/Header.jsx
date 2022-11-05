@@ -7,6 +7,7 @@ import Loading from './Loading';
 
 const Header = () => {
     const { user, logout, loadingUser } = useContext(AuthContext);
+    // console.log(user);
 
     if (loadingUser) {
         return <Loading></Loading>
@@ -21,6 +22,7 @@ const Header = () => {
     const menuItems = <>
         <li><NavLink to="/home" className={({ isActive }) => isActive ? "bg-[#3A4256] text-white" : undefined}>Home</NavLink></li>
         <li><NavLink to="/blog" className={({ isActive }) => isActive ? "bg-[#3A4256] text-white" : undefined}>Blog</NavLink></li>
+        <li><NavLink to="/payment" className={({ isActive }) => isActive ? "bg-[#3A4256] text-white" : undefined}>Pay</NavLink></li>
         {
             user ?
                 <>

@@ -52,6 +52,7 @@ const UserContext = ({ children }) => {
 
   // 5. Logout
   const logout = () => {
+    localStorage.removeItem('genius-token');
     setLoadingUser(true)
     return signOut(auth)
   }

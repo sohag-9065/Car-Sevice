@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { setAuthToken } from '../../accessToken/authToken';
 import { AuthContext } from '../../Context/UserContext';
 import imageUpload from '../../js/imageUpload';
 import Loading from '../../shared/Loading';
@@ -12,7 +13,7 @@ const SignUp = () => {
     const { createUser, updateNameImage, verifyEmail } = useContext(AuthContext);
     const { register, formState: { errors }, reset, handleSubmit } = useForm();
     const [loadingUser, setLoadingUser] = useState(false);
-    
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -28,7 +29,11 @@ const SignUp = () => {
         setLoadingUser(true)
         // 1.Create User 
         createUser(email, password)
-            .then(() => {
+            .then((result) => {
+
+                // token generate 
+                const user = result.user;
+                setAuthToken(user);
                 //2. Image link Link create 
                 imageUpload(image)
                     .then(res => res.json())
@@ -45,6 +50,7 @@ const SignUp = () => {
                                             toast.success('Please check your email for verification link', { autoClose: 1000 })
                                             setLoadingUser(false);
                                             navigate(from, { replace: true })
+
                                         })
                                         .catch(error => {
                                             setLoadingUser(false);
@@ -56,7 +62,7 @@ const SignUp = () => {
                                 })
                         }
                     })
-                    
+
             })
             .catch(error => {
                 toast.error(error);

@@ -7,6 +7,8 @@ import Orders from "../pages/Orders/Orders";
 import Checkout from "../pages/Checkout/Checkout";
 import ErrorPage from "../shared/ErrorPage";
 import ProtectRoute from "./ProtectRoute";
+import Blog from "../pages/Blog/Blog";
+import Payment from "../pages/Payment/Payment";
 
 
 const router = createBrowserRouter([
@@ -25,7 +27,11 @@ const router = createBrowserRouter([
             },
             {
                 path: '/blog',
-                element: <Home></Home>
+                element: <Blog></Blog>
+            },
+            {
+                path: '/payment',
+                element: <Payment></Payment>
             },
             {
                 path: '/checkout/:id',

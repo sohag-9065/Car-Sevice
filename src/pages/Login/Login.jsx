@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { setAuthToken } from '../../accessToken/authToken';
 import { AuthContext } from '../../Context/UserContext';
 import Loading from '../../shared/Loading';
 import SocialLogin from './SocialLogin';
@@ -25,28 +26,10 @@ const Login = () => {
         signin(email, password)
             .then(result => {
                 const user = result.user;
-                const currentUser = {
-                    email: user.email
-                }
-                console.log(currentUser);
-                // get jwt token
-                fetch('https://genious-car-server-ecru.vercel.app/jwt', {
-                    method: 'POST',
-                    headers: {
-                        'content-type': 'application/json'
-                    },
-                    body: JSON.stringify(currentUser)
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        // console.log(data);
-                        // local storage is the easiest but not the best place to store jwt token
-                        localStorage.setItem('genius-token', data.token);
-                        navigate(from, { replace: true });
-                    });
+                setAuthToken(user);
 
                 toast.success('Login Success!', { autoClose: 1000 });
-                // navigate(from, { replace: true });
+                navigate(from, { replace: true });
             })
             .catch(error => toast.error(error.message));
         reset();
